@@ -136,17 +136,35 @@ function EvoPanel() {
 
 			// Pick parents randomly from winners, and crossover their DNA to create a new child
 			for (var i = 0; i < app.popCount; i++) {
-				var rawDNA0 = winners[Math.floor(winners.length * Math.random())].dna.values;
-				var rawDNA1 = winners[Math.floor(winners.length * Math.random())].dna.values;
+                var rawDNA0 = winners[Math.floor(winners.length * Math.random())].dna.values;
+                var rawDNA1 = winners[Math.floor(winners.length * Math.random())].dna.values;
 
-				/*
-				 * TODO: Replace this with real crossover
-				 * The raw DNA is just an array of floats [0,1]
-				 * Use that to fill in the childDNA with the right values
-				 */
-				var childDNA = app.population.createDNA();
+                /*
+                 * TODO: Replace this with real crossover
+                 * The raw DNA is just an array of floats [0,1]
+                 * Use that to fill in the childDNA with the right values
+                 */
+                var childDNA = app.population.createDNA();
+
+                var childDNA0 = rawDNA0;
+                var childDNA1 = rawDNA1;
+
+                var crossover = Math.floor((Math.random() * rawDNA0.length));
+
 				for (var j = 0; j < childDNA.values.length; j++) {
-					childDNA.values[j] = Math.random();
+					if (j < crossover) {
+                        childDNA0.values[j] = rawDNA0.values[j];
+                        childDNA1.values[j] = rawDNA1.values[j];
+                    } else{
+                        childDNA0.values[j] = rawDNA1.values[j];
+                        childDNA1.values[j] = rawDNA0.values[j];
+                    }
+                    var chance = Math.floor((Math.random()*2 + 1))
+                    if (chance == 2) {
+                        childDNA.values[j] = childDNA0.values[j];
+                    } else{
+                        childDNA.values[j] = childDNA1.values[j];
+                    }
 				}
 				
 				nextGeneration[i] = app.population.dnaToIndividual(childDNA);
@@ -180,9 +198,22 @@ function EvoPanel() {
 		var sorted = app.population.individuals.sort(function(a, b) {
 			return b.food - a.food;
 		});
-		for (var i = 0; i < 3; i++) {
-			app.evoPanel.addToWinners(sorted[i], i);
-		}
+
+		app.evoPanel.addToWinners(sorted[0], 0);
+
+
+		var wsorted = app.population.individuals.sort(function(a,b){
+            if(a.wingLength + a.wingWidth > b.wingLength + b.wingWidth){
+                return a;
+            }else{
+                return b;
+            }
+        });
+
+        app.evoPanel.addToWinners(wsorted[0], 1);
+
+
+
 	});
 
 }
