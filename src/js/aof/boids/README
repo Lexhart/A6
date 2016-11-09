@@ -1,0 +1,8 @@
+What new forces did you add to affect the behavior of a flock? How did you tie in the genetic values?
+Force was implemented to make the flock follow the cursor. Also, the wander behavior was altered to a more randomized behavior.
+
+Describe your two new fitness functions. What do they try to optimize? Try evolving flocks for several generations under each. How successfully do the flocks evolve to fit the desired outcomes from these selective pressures? Can you outperform the evolutionary process by adjusting flock genomes by hand?
+The first function compares the wing power of the flock, selecting the winner through that. The second one calculated the wing size of the flock and chose from the bigger size. The flocks evolved to fit the desired outcomes for the most part. The evolutionary process can be outperformed by adjusting flock genomes by hand.
+
+Experiment with evolving flocks using only mutation, only crossover, and a mix of both. Describe your findings in how the evolutionary mechanisms differ over time.
+Mutation results in seemingly random results, not very optimal. Crossover makes the flocks homogenized through time. A mix of both combines both the results, making it not too different or too similar.

@@ -90,7 +90,7 @@ var Boid = Particle.extend({
 		// Calculate the center of the flock
 		this.forces[2].mult(0);
 		this.forces[2].setToDifference(this, this.flock.center);
-		this.forces[2].mult(-(10 * (this.flock.dna.values[15] + 4)));
+		this.forces[2].mult(-((this.flock.dna.values[15] + 4)));
 
 		// Propulsion force
 		// A force to keep them moving forward (in whatever direction forward is)
@@ -115,7 +115,7 @@ var Boid = Particle.extend({
 		//this.forces[5].mult(0);
 
         this.forces[5].setToPolar(160, 20 * utilities.noise(this.id, t.current * .2));
-		this.forces[5].mult(this.flock.dna.values[17]*10);
+		this.forces[5].mult(10*this.flock.dna.values[17]);
 
 		// EXAMPLE_FOOD: This example force searches for food directly ahead, and,
 		// if found, exerts a lunging force forward
@@ -147,9 +147,12 @@ var Boid = Particle.extend({
 		// Reverse the behavior:
 		//this.forces[7].mult(-1);
 
-        this.forces[7].setToDifference(this, app.mouse);
-        this.forces[7].mult(-2);
-
+        if(this.flock.dna.values[16] < .5)
+            this.forces[7].mult(200 * total);
+        else {
+            this.forces[7].setToDifference(this, app.mouse);
+            this.forces[7].mult(-2);
+        }
 		// Leave this line in!
 		this._super(t);
 		this.rotation = this.v.getAngle();
