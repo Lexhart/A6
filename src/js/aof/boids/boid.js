@@ -115,7 +115,7 @@ var Boid = Particle.extend({
 		//this.forces[5].mult(0);
 
         this.forces[5].setToPolar(160, 20 * utilities.noise(this.id, t.current * .2));
-		this.forces[5].mult(10*this.flock.dna.values[17]);
+		this.forces[5].mult(10*this.flock.dna.values[18]);
 
 		// EXAMPLE_FOOD: This example force searches for food directly ahead, and,
 		// if found, exerts a lunging force forward
