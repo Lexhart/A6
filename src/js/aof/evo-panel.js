@@ -146,29 +146,31 @@ function EvoPanel() {
                  */
                 var childDNA = app.population.createDNA();
 
-                var childDNA0 = rawDNA0;
-                var childDNA1 = rawDNA1;
+                var childDNA0 = app.population.createDNA();
+                var childDNA1 = app.population.createDNA();
 
-                var crossover = Math.floor((Math.random() * rawDNA0.length));
+                var crossover = Math.floor((Math.random() * childDNA0.length));
 
 				for (var j = 0; j < childDNA.values.length; j++) {
 					if (j < crossover) {
-                        childDNA0.values[j] = rawDNA0.values[j];
-                        childDNA1.values[j] = rawDNA1.values[j];
+                        childDNA0.values[j] = rawDNA0[j];
+                        childDNA1.values[j] = rawDNA1[j];
                     } else{
-                        childDNA0.values[j] = rawDNA1.values[j];
-                        childDNA1.values[j] = rawDNA0.values[j];
+                        childDNA0.values[j] = rawDNA1[j];
+                        childDNA1.values[j] = rawDNA0[j];
                     }
+
                     var chance = Math.floor((Math.random()*2 + 1))
                     if (chance == 2) {
-                        childDNA.values[j] = childDNA0.values[j];
+                        childDNA.values[j] = childDNA0[j];
                     } else{
-                        childDNA.values[j] = childDNA1.values[j];
+                        childDNA.values[j] = childDNA1[j];
                     }
 				}
-				
-				nextGeneration[i] = app.population.dnaToIndividual(childDNA);
-			
+
+				nextGeneration[i] = app.population.dnaToIndividual(childDNA0);
+                nextGeneration[i] = app.population.dnaToIndividual(childDNA1);
+
 			}
 
 			break;
@@ -198,21 +200,28 @@ function EvoPanel() {
 		var sorted = app.population.individuals.sort(function(a, b) {
 			return b.food - a.food;
 		});
+        for (var i = 0; i < 3; i++) {
+            app.evoPanel.addToWinners(sorted[i], i);
+        }
 
-		app.evoPanel.addToWinners(sorted[0], 0);
+        var psorted = app.population.individuals.sort(function(a,b){
+            return b.wingPower - a.wingPower;
+        });
+
+        app.evoPanel.addToWinners(psorted[3], 3);
 
 
 		var wsorted = app.population.individuals.sort(function(a,b){
-            if(a.wingLength + a.wingWidth > b.wingLength + b.wingWidth){
+            var aWings = a.wingLength + a.wingWidth;
+            var bWings = b.wingLength + b.wingWidth;
+            if(aWings > bWings){
                 return a;
             }else{
                 return b;
             }
         });
 
-        app.evoPanel.addToWinners(wsorted[0], 1);
-
-
+        app.evoPanel.addToWinners(wsorted[4], 4);
 
 	});
 

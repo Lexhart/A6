@@ -112,8 +112,10 @@ var Boid = Particle.extend({
 		*/
 
 		// EXAMPLE_WANDER: For example, this is a force that tells them to wander around
-		this.forces[5].mult(0);
-		this.forces[5].setToPolar(160, 20 * utilities.noise(this.id, t.current * .2));
+		//this.forces[5].mult(0);
+
+        this.forces[5].setToPolar(160, 20 * utilities.noise(this.id, t.current * .2));
+		this.forces[5].mult(this.flock.dna.values[17]*10);
 
 		// EXAMPLE_FOOD: This example force searches for food directly ahead, and,
 		// if found, exerts a lunging force forward
@@ -131,6 +133,12 @@ var Boid = Particle.extend({
 		}
 		this.forces[6].mult(200 * total);
 
+
+
+
+
+
+
 		// EXAMPLE_MOUSE: Try making the boids CHASE or RUN FROM your mouse movement
 		// Try controlling fearfulness/curiosity about 
 		// the mouse with one of the unused DNA genes
@@ -138,6 +146,9 @@ var Boid = Particle.extend({
 		//this.forces[7].setToDifference(this, app.mouse);
 		// Reverse the behavior:
 		//this.forces[7].mult(-1);
+
+        this.forces[7].setToDifference(this, app.mouse);
+        this.forces[7].mult(-2);
 
 		// Leave this line in!
 		this._super(t);
