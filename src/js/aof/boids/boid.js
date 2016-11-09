@@ -90,7 +90,7 @@ var Boid = Particle.extend({
 		// Calculate the center of the flock
 		this.forces[2].mult(0);
 		this.forces[2].setToDifference(this, this.flock.center);
-		this.forces[2].mult(-((this.flock.dna.values[15] + 4)));
+		this.forces[2].mult(-(10 * (this.flock.dna.values[15] + 4)));
 
 		// Propulsion force
 		// A force to keep them moving forward (in whatever direction forward is)
